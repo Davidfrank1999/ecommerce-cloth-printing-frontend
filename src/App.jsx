@@ -1,3 +1,4 @@
+import Products from './pages/admin/Products.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login.jsx';
 import Signup from './components/Signup/Signup.jsx';
@@ -13,8 +14,8 @@ import Admin from './layouts/Admin.jsx';
 import AdminMiddleware from './middleware/AdminMiddleware.jsx';
 import AdminLogin from './pages/admin/AdminLogin.jsx';
 import Dashboard from './pages/admin/Dashboard.jsx';
-import Products from './pages/admin/Products.jsx';
 import Orders from './pages/admin/Orders.jsx';
+import TshirtCustomize from './konvaCanvas/TshirtCustomize.jsx';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/admin/login' element={<AdminLogin />} />
-
+          <Route path='/canvas' element={<TshirtCustomize />}></Route>
           {/* Routes with layout (NavBar + Footer) */}
           <Route element={<Mainlayout />}>
             <Route path='/home' element={<HomePage />} />
