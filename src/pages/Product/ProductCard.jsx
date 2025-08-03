@@ -41,7 +41,7 @@ const ProductCard = () => {
   };
 
   const handleEditDesign = () => {
-    alert('Redirecting to design editor...');
+    navigate('/canvas?product='+ encodeURIComponent(product.image));
   };
 
   
