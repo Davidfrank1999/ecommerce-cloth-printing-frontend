@@ -37,10 +37,10 @@ const Product = () => {
         {Object.keys(products).map((category) => (
           <button
             key={category}
-            className={`px-6 py-2 rounded border font-medium transition duration-200 text-sm md:text-base cursor-pointer ${
+            className={`px-6 py-2 rounded-xl border font-medium transition duration-200 text-sm md:text-base cursor-pointer ${
               activeTab === category
-                ? 'bg-primary -600 text-white border-primary -600'
-                : 'bg-white text-primary -600 border-primary -600 hover:bg-accent -50'
+                ? 'bg-text -600 text-white border-text -600'
+                : 'bg-white text-primary -600 border-primary -600 hover:bg-primary -50 hover:text-white'
               
             }`}
             onClick={() => setActiveTab(category)}
@@ -92,7 +92,7 @@ const Product = () => {
                   e.preventDefault();
                   addToCart({ ...product, size: 'M', quantity: 1 });
                 }}
-                className="mt-2 bg-secondary -500 hover:bg-accent -600 text-white text-sm py-2 rounded transition cursor-pointer"
+                className="mt-2 bg-primary -500 hover:bg-accent -600 text-white text-sm py-2 rounded transition cursor-pointer"
               >
                 Add to Cart
               </button>
@@ -103,7 +103,7 @@ const Product = () => {
                   addToCart({ ...product, size: 'M', quantity: 1 });
                   navigate('/cart');
                 }}
-                className="text-center text-white text-sm bg-primary -600 hover:bg-accent -700 py-2 rounded transition cursor-pointer"
+                className="text-center text-white text-sm bg-text -600 hover:bg-accent -700 py-2 rounded transition cursor-pointer"
               >
                 Buy Now
               </button>
