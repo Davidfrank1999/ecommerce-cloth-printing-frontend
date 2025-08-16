@@ -57,7 +57,7 @@ const NavBar = () => {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-2 hover:text-accent transition"
+            className="flex items-center gap-2 hover:text-accent transition cursor-pointer"
           >
             <FaUser className="w-5 h-5" />
             <span className="hidden xl:inline-block font-medium">My Account</span>

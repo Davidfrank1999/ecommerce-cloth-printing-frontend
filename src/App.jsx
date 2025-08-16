@@ -7,6 +7,8 @@ import Product from './pages/Product/Product.jsx';
 import ProductCard from './pages/Product/ProductCard.jsx';
 import Cart from './components/Cart/Cart.jsx';
 import Wishlist from './pages/Wishlist/Wishlist.jsx';
+import AccountSettings from './components/MyAccount/AccountSettings.jsx';
+import OrderHistory from './components/MyAccount/OrderHistory.jsx';
 
 // Admin pages
 import Admin from './layouts/Admin.jsx';
@@ -29,8 +31,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
 
           <Route path="/wishlist" element={<Wishlist />} />
-
-        
+          <Route path="/account-settings" element={<AccountSettings />} />
+          <Route path="/order-history" element={<OrderHistory />} />
         </Route>
 
 
