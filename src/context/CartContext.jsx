@@ -38,19 +38,16 @@ const cartReducer = (state, action) => {
     case 'ADD_TO_CART': {
       const item = action.payload;
       const existingItem = state.cartItems.find(
-        i => i.id === item.id && i.size === item.size
+        i => i.id === item.id && i.name === item.name && i.size === item.size
       );
 
-      let updatedCartItems;
-      if (existingItem) {
-        updatedCartItems = state.cartItems.map(i =>
-          i.id === item.id && i.size === item.size
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        );
-      } else {
-        updatedCartItems = [...state.cartItems, item];
-      }
+      const updatedCartItems = existingItem
+        ? state.cartItems.map(i =>
+            i.id === item.id && i.name === item.name && i.size === item.size
+              ? { ...i, quantity: i.quantity + item.quantity }
+              : i
+          )
+        : [...state.cartItems, item];
 
       const totals = calculateTotals(updatedCartItems);
       return {
@@ -61,9 +58,9 @@ const cartReducer = (state, action) => {
     }
 
     case 'REMOVE_FROM_CART': {
-      const { id, size } = action.payload;
+      const { id, name, size } = action.payload;
       const updatedCartItems = state.cartItems.filter(
-        item => !(item.id === id && item.size === size)
+        item => !(item.id === id && item.name === name && item.size === size)
       );
       const totals = calculateTotals(updatedCartItems);
       return {
@@ -74,9 +71,11 @@ const cartReducer = (state, action) => {
     }
 
     case 'UPDATE_QUANTITY': {
-      const { id, size, quantity } = action.payload;
+      const { id, name, size, quantity } = action.payload;
       const updatedCartItems = state.cartItems.map(item =>
-        item.id === id && item.size === size ? { ...item, quantity } : item
+        item.id === id && item.name === name && item.size === size
+          ? { ...item, quantity }
+          : item
       );
       const totals = calculateTotals(updatedCartItems);
       return {
@@ -128,12 +127,12 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'ADD_TO_CART', payload: item });
   };
 
-  const removeFromCart = (id, size) => {
-    dispatch({ type: 'REMOVE_FROM_CART', payload: { id, size } });
+  const removeFromCart = (id, name, size) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: { id, name, size } });
   };
 
-  const updateQuantity = (id, size, quantity) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, size, quantity } });
+  const updateQuantity = (id, name, size, quantity) => {
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, name, size, quantity } });
   };
 
   const clearCart = () => {
@@ -163,6 +162,4 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-export const useCart = () => {
-  return useContext(CartContext);
-};
+export const useCart = () => useContext(CartContext);
