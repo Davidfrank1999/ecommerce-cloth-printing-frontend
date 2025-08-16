@@ -1,15 +1,17 @@
 import { useCart } from '../../context/CartContext';
 import { Minus, Plus, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const navigate = useNavigate();
 
   const shippingCharge = 50;
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const grandTotal = totalPrice + shippingCharge;
+  const grandTotal = totalPrice + (cartItems.length > 0 ? shippingCharge : 0);
 
   return (
     <div className="min-h-screen bg-white px-4 sm:px-6 lg:px-20 py-10">
@@ -93,13 +95,20 @@ const Cart = () => {
             </div>
             <div className="flex justify-between text-gray-700 mb-3">
               <span className="text-lg font-medium">Shipping</span>
-              <span className="text-lg font-medium text-gray-900">₹{shippingCharge}</span>
+              <span className="text-lg font-medium text-gray-900">
+                {cartItems.length > 0 ? `₹${shippingCharge}` : "₹0"}
+              </span>
             </div>
             <div className="flex justify-between text-gray-800 border-t pt-4 mt-4">
               <span className="text-lg font-bold">Total</span>
               <span className="text-lg font-bold text-indigo-700">₹{grandTotal}</span>
             </div>
-            <button className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition text-lg cursor-pointer">
+
+            {/* Checkout Button */}
+            <button
+              onClick={() => navigate("/payment")}
+              className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition text-lg cursor-pointer"
+            >
               Proceed to Checkout
             </button>
           </div>

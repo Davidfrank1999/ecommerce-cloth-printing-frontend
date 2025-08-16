@@ -15,7 +15,7 @@
   ],
   "description": "Dynamic Web App for Clothes Printing Business",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
