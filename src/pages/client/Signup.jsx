@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { signUp } from "../../services/client/authService";
 
 const Signup = () => {
 
@@ -9,6 +9,7 @@ const Signup = () => {
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     });
     
     const [error, setError] = useState("");
@@ -22,8 +23,13 @@ const Signup = () => {
     const handleSubmit = async(e) => {
         e.preventDefault(); 
         try {
-          const url = "http://localhost:5000/api/users";
-          const {data: res} = await axios.post(url,data);
+          // password match
+          if (data.password !== data.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+          }
+
+          const res = await signUp(data);
           navigate("/");
           console.log(res.message);
         } catch (error) {
