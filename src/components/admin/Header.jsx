@@ -1,11 +1,18 @@
 import { useNavigate } from "react-router-dom";
+import { logoutAdmin } from "../../services/admin/adminAuthService";
 
 export default function Header() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_token");
-    navigate("/admin/login");
+    try {
+      logoutAdmin();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+    setTimeout(() => {
+          navigate("/admin/login", { replace: true });
+        }, 500);
   };
 
   return (

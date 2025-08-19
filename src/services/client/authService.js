@@ -4,8 +4,8 @@ import api from "../api";
 
 
 // signUp new user
-export async function signUp(userData) {
-  const res = await api.post("/signup", userData);
+export async function signUp(credentials) {
+  const res = await api.post("/signup", credentials);
   return res.data;
 }
 

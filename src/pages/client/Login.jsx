@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { login } from "../../services/client/authService";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
 
@@ -16,19 +21,29 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+    setLoading(true);
     try {
       const res = await login(data.email, data.password);
 
-      navigate("/home");
+      if (res.success) {
+        setSuccess("Login successful!");
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      }
+      
     } catch (error) {
       console.error("Login failed:", error);
+      setError(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8"
-    >
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
           Login page
@@ -36,7 +51,12 @@ const Login = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-4" action="#" method="POST" onSubmit={handleSubmit}>
+        <form
+          className="space-y-4"
+          action="#"
+          method="POST"
+          onSubmit={handleSubmit}
+        >
           <div>
             <label
               htmlFor="email"
@@ -79,25 +99,41 @@ const Login = () => {
             </div>
           </div>
 
+          {error && (
+            <div className="block text-sm/6 font-medium text-gray-900">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="mt-2 text-sm text-gray-900 font-medium">
+              {success}
+            </div>
+          )}
+
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              disabled={loading}
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                loading
+                  ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                  : "bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600"
+              }`}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-500">
           Don't have an account?
-          <a
-            href={"/signup"}
+          <Link
+            to="/signup"
             className="font-semibold text-indigo-600 hover:text-indigo-500"
           >
             {" "}
             Create an account
-          </a>
+          </Link>
         </p>
       </div>
     </div>
