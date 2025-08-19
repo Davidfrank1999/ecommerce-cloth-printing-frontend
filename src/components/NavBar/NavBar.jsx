@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaShoppingCart, FaHeart, FaUser } from "react-icons/fa";
 import { useCart } from "../../../src/context/CartContext";
+import { logout } from "../../services/client/authService";
 
 // Define nav links here
 // add # which route are currently not implemented
@@ -113,6 +114,19 @@ function NavBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    try {
+      logout();
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
     <>
       <nav className="bg-primary text-white px-4 md:px-6 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
@@ -156,7 +170,7 @@ function NavBar() {
                   Account Settings
                 </Link>
                 <button
-                  onClick={() => alert("Signed out!")}
+                  onClick={() => handleLogout()}
                   className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50"
                 >
                   Sign Out
