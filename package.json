@@ -1,8 +1,9 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Dynamic Web App for Clothes Printing Business",
   "contributors": [
     {
       "name": "David Franklin D.",
@@ -13,7 +14,6 @@
       "email": "mohammedaneez37@gmail.com"
     }
   ],
-  "description": "Dynamic Web App for Clothes Printing Business",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
@@ -21,17 +21,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
+    "@react-three/drei": "^10.7.3",
+    "@react-three/fiber": "^9.3.0",
     "axios": "^1.10.0",
+    "cloudinary": "^2.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
     "lucide-react": "^0.525.0",
+    "mongoose": "^8.17.2",
+    "multer": "^2.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.6.3"
+    "react-router-dom": "^7.6.3",
+    "three": "^0.179.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
     "@faker-js/faker": "^9.9.0",
+    "@tailwindcss/vite": "^4.1.11",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",

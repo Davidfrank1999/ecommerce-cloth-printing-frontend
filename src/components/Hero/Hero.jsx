@@ -9,7 +9,7 @@ export default function Hero() {
         <p className="mt-4 text-lg md:text-xl text-gray-600">
           Print your imagination. Wear your passion.
         </p>
-        <button className="mt-8 bg-primary text-white px-6 py-3 rounded-lg text-lg hover:bg-accent/80 transition duration-1000">
+        <button className="cursor-pointer mt-8 bg-primary text-white px-6 py-3 rounded-lg text-lg hover:bg-accent/80 transition duration-1000">
           Get Started
         </button>
       </div>

@@ -12,7 +12,7 @@ export default function Header() {
     <header className="bg-[#1a1a1a]">
       <div className="mx-auto flex h-14 max-w-screen-xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left: Logo or title */}
-        <h2 className="text-white text-lg font-semibold">Dashboard</h2>
+        <h2 className="text-white text-lg font-semibold">Admin Dashboard</h2>
 
         {/* Right: Buttons */}
         <div className="flex items-center gap-4">
