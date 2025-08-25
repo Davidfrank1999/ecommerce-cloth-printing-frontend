@@ -133,8 +133,8 @@ function NavBar() {
         {/* Left: Toggle (mobile) + Logo */}
         <div className="flex items-center gap-3">
           <MobileToggleIcon isOpen={isMenuOpen} toggle={toggleMenu} />
-          <Link to="/home" className="text-xl font-bold">
-            T-Shirt
+          <Link to="/home" className="font-HeroCustom text-xl font-bold">
+            Teesy Imprimé
           </Link>
         </div>
 
@@ -152,7 +152,7 @@ function NavBar() {
               className="flex items-center gap-2 hover:text-accent transition"
             >
               <FaUser className="w-5 h-5" />
-              <span className="hidden xl:inline-block font-medium">My Account</span>
+              <span className="hidden xl:inline-block font-medium">Account</span>
             </button>
 
             {isDropdownOpen && (

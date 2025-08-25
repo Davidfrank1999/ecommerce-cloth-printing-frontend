@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -5,4 +6,8 @@
     --color-secondary:#2892FC ; /* Sky Blue */
     --color-accent:#728CFF ; /* Soft violet */
     --color-text:#000000 ; /* Black */
+
+
+    --font-HeroCustom: "Agbalumo", cursive;
 }
+

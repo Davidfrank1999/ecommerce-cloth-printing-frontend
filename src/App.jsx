@@ -16,23 +16,30 @@ import AdminLogin from './pages/admin/AdminLogin.jsx';
 import Dashboard from './pages/admin/Dashboard.jsx';
 import Orders from './pages/admin/Orders.jsx';
 import TshirtCustomize from './konvaCanvas/TshirtCustomize.jsx';
+import PageTransition from './layouts/PageTransition.jsx';
+import UserLayout from './layouts/UserLayout.jsx';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route element={<PageTransition />} >
           <Route path='/' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/canvas' element={<TshirtCustomize />}></Route>
+        </Route>
           {/* Routes with layout (NavBar + Footer) */}
           <Route element={<Mainlayout />}>
             <Route path='/home' element={<HomePage />} />
-            <Route path="/products" element={<Product />} />
-            <Route path="/product/:category/:index" element={<ProductCard />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />  
-          </Route>
+            <Route element={<PageTransition />} >
+              <Route path="/products" element={<Product />} />
+              <Route path="/product/:category/:index" element={<ProductCard />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Wishlist />} />  
+              <Route path="/user" element={<UserLayout/>} />  
+            </Route>
+        </Route>
 
 
           {/* Admin routes */}
