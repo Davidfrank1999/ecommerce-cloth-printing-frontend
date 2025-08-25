@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { signUp } from "../../services/client/authService";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
 
@@ -9,9 +10,13 @@ const Signup = () => {
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     });
     
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState("");
+
 
     const navigate = useNavigate(); 
 
@@ -21,20 +26,37 @@ const Signup = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault(); 
+        setError("");
+        setSuccess("");
+        setLoading(true);
+
         try {
-          const url = "http://localhost:5000/api/users";
-          const {data: res} = await axios.post(url,data);
-          navigate("/");
+          // password match
+          if (data.password !== data.confirmPassword) {
+            setError("Passwords do not match");
+            setLoading(false);
+            return;
+          }
+
+          const res = await signUp(data);
+          
+           // redirect after a short delay
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+
           console.log(res.message);
         } catch (error) {
           if( error.response &&
             error.response.status >= 400 &&
             error.response.status <= 500
-          ){
-		console.log(error.response.data.message);
+          ) {
+            console.log(error.response.data.message);
             setError(error.response.data.message)
           }
+          setLoading(false);
         }     
+        
     }
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -128,16 +150,36 @@ const Signup = () => {
               </div>
             </div>
 
-            {error && <div className="block text-sm/6 font-medium text-gray-900">{error}</div>}
+    
+            {error && (
+              <div className="block text-sm/6 font-medium text-gray-900">{error}</div>
+            )}
+            {success && (
+              <div className="mt-2 text-sm text-gray-900 font-medium">{success}</div>
+            )}
 
             <div>
-              <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                  loading
+                    ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                    : "bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600"
+                }`}
+              >
+                {loading ? "Signing up..." : "Sign up"}
+              </button>
             </div>
+
           </form>
       
+          {/* using <a href="/">, which will cause a full page reload. */}
           <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Already have an account?
-            <a href={'/'} className="font-semibold text-indigo-600 hover:text-indigo-500"> Login to the account</a>
+            Already have an account?{" "}
+            <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              Login 
+            </Link>
           </p>
         </div>
       </div>

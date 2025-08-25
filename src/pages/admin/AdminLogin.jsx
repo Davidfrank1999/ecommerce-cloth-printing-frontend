@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { adminLogin, getAdminToken } from "../../services/admin/adminAuthService";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ 
@@ -15,7 +15,7 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   
   useEffect(() => {
-    const token = localStorage.getItem("admin_token");
+    const token = getAdminToken();
     if (token) {
       navigate("/admin", { replace: true });
     }
@@ -27,15 +27,14 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const url = "http://localhost:5000/api/admin/login";
-      const res = await axios.post(url, formData);  // <-- corrected
-  
-      // Store token in localStorage
-      localStorage.setItem("admin_token", res.data.token);
-      console.log("Token saved:", localStorage.getItem("admin_token"));
-      console.log(res.data.message); // or success message from server
-      navigate("/admin"); // redirect after login
+      const res = await adminLogin(formData);
+      
+      setTimeout(() => {
+          navigate("/admin");
+        }, 600);
+        
     } catch (error) {
       if (
         error.response &&
@@ -44,8 +43,10 @@ const AdminLogin = () => {
       ) {
         console.log(error.response.data.message);
         setError(error.response.data.message);
-      }
-    }
+      } 
+      } finally {
+            setIsLoading(false);
+          }
   };
   
 
@@ -99,7 +100,7 @@ const AdminLogin = () => {
                 className="w-full pl-10 pr-12 py-2 border rounded-md bg-white text-[#020817] focus:outline-none focus:ring-2 focus:ring-[#0D6EFD] border-[#E0E0E0]"
               />
 
-                {error && <div className="block text-sm/6 font-medium text-gray-900">{error}</div>}
+                
 
               <button
                 type="button"
@@ -110,22 +111,18 @@ const AdminLogin = () => {
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
-            {error.password && (
-              <p className="mt-1 text-sm text-[#FF4C4C] animate-fade-in">
-                {error.password}
-              </p>
-            )}
           </div>
 
           {/* Submit */}
           <button
             type="submit"
-            disabled={isLoading || Object.keys(error).length > 0}
+            disabled={isLoading}
             className="w-full bg-[#0D6EFD] text-white py-2 rounded-md transition-all duration-200 hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-[#0D6EFD] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
+        {error && <div className="block text-sm/6 font-medium text-gray-900">{error}</div>}
       </div>
     </div>
   );

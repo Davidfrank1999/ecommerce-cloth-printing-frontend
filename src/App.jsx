@@ -1,7 +1,7 @@
 import Products from './pages/admin/Products.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './components/Login/Login.jsx';
-import Signup from './components/Signup/Signup.jsx';
+import Login from './pages/client/Login.jsx';
+import Signup from './pages/client/Signup.jsx';
 import Mainlayout from './layouts/Mainlayout.jsx';
 import { HomePage } from './pages/HomePage/HomePage.jsx';
 import Product from './pages/Product/Product.jsx';
