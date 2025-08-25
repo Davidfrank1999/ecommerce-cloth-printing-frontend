@@ -18,6 +18,7 @@ import Orders from './pages/admin/Orders.jsx';
 import TshirtCustomize from './konvaCanvas/TshirtCustomize.jsx';
 import PageTransition from './layouts/PageTransition.jsx';
 import UserLayout from './layouts/UserLayout.jsx';
+import UserDashboard from './pages/client/UserDashboard.jsx';
 
 function App() {
   return (
@@ -31,15 +32,25 @@ function App() {
         </Route>
           {/* Routes with layout (NavBar + Footer) */}
           <Route element={<Mainlayout />}>
+
             <Route path='/home' element={<HomePage />} />
-            <Route element={<PageTransition />} >
-              <Route path="/products" element={<Product />} />
-              <Route path="/product/:category/:index" element={<ProductCard />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/wishlist" element={<Wishlist />} />  
-              <Route path="/user" element={<UserLayout/>} />  
-            </Route>
+
+              <Route element={<PageTransition />} >
+                <Route path="/products" element={<Product />} />
+                <Route path="/product/:category/:index" element={<ProductCard />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/wishlist" element={<Wishlist />} />   
+
+                {/* Client-User Routes */}
+                <Route element={<UserLayout />}>
+                  <Route path="/account-settings" element={<UserDashboard/>} /> 
+                </Route>
+                
+              </Route>
+
         </Route>
+
+        
 
 
           {/* Admin routes */}
