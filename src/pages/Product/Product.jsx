@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
-import { Heart } from "lucide-react";
 import axios from "axios";
+import { useCart } from "../../context/CartContext";
+import ProductCard from "../../components/ProductCard"; // ✅ reusable card
 
 const Product = () => {
   const [activeTab, setActiveTab] = useState("");
-  const { addToCart, toggleWishlist, wishlist } = useCart();
-  const navigate = useNavigate();
+  const { toggleWishlist, wishlist, addToCart } = useCart();
 
   const [wishlistMessage, setWishlistMessage] = useState("");
   const [products, setProducts] = useState({});
@@ -41,7 +39,7 @@ const Product = () => {
     fetchProducts();
   }, []);
 
-  // ✅ Wishlist
+  // ✅ Wishlist check
   const isWishlisted = (item) => wishlist.some((p) => p._id === item._id);
 
   const handleToggleWishlist = (product) => {
@@ -56,7 +54,7 @@ const Product = () => {
     return (
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="animate-pulse bg-gray-200 h-72 rounded-lg"></div>
+          <div key={i} className="animate-pulse bg-accent/30 h-72 rounded-lg"></div>
         ))}
       </div>
     );
@@ -65,14 +63,14 @@ const Product = () => {
   // ✅ Error state
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-background">
         <p className="text-red-600 text-lg">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 sm:p-10 bg-gray-50 min-h-screen relative">
+    <div className="p-6 sm:p-10 bg-background min-h-screen relative">
       {/* Wishlist Toast */}
       {wishlistMessage && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 
@@ -82,7 +80,7 @@ const Product = () => {
       )}
 
       {/* Title */}
-      <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10 capitalize">
+      <h1 className="text-4xl font-extrabold text-center text-text mb-10 capitalize">
         {activeTab ? `${activeTab} Collection` : "Our Products"}
       </h1>
 
@@ -94,8 +92,8 @@ const Product = () => {
             className={`px-6 py-2 rounded-xl border font-medium transition duration-200 
               text-sm md:text-base cursor-pointer ${
                 activeTab === category
-                  ? "bg-indigo-600 text-white border-indigo-600"
-                  : "bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-50"
+                  ? "bg-primary text-white border-primary"
+                  : "bg-white text-primary border-primary hover:bg-accent/10"
               }`}
             onClick={() => setActiveTab(category)}
           >
@@ -108,69 +106,17 @@ const Product = () => {
       {products[activeTab]?.length > 0 ? (
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products[activeTab].map((product) => (
-            <Link
-              to={`/product/${activeTab.toLowerCase()}/${product._id}`}
+            <ProductCard
               key={product._id}
-              className="group bg-white rounded-xl border border-gray-200 shadow-sm 
-                hover:shadow-lg transition overflow-hidden relative"
-            >
-              {/* Wishlist Icon */}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleToggleWishlist(product);
-                }}
-                className="absolute top-3 right-3 text-gray-400 hover:text-red-500 
-                  z-10 cursor-pointer"
-              >
-                <Heart
-                  className={`w-5 h-5 transition ${
-                    isWishlisted(product)
-                      ? "fill-red-500 text-red-500"
-                      : "text-gray-400"
-                  }`}
-                />
-              </button>
-
-              {/* Product Image */}
-              <img
-                src={product.image || "https://via.placeholder.com/300"}
-                alt={product.name}
-                className="w-full h-60 object-cover transition duration-300 group-hover:scale-105"
-              />
-
-              {/* Product Details */}
-              <div className="p-4 flex flex-col gap-2">
-                <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                <p className="text-indigo-700 font-medium text-sm">₹{product.price}</p>
-
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    addToCart({ ...product, size: "M", quantity: 1 });
-                  }}
-                  className="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white 
-                    text-sm py-2 rounded transition cursor-pointer"
-                >
-                  Add to Cart
-                </button>
-
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate(`/product/${activeTab.toLowerCase()}/${product._id}`);
-                  }}
-                  className="text-center text-white text-sm bg-gray-800 hover:bg-gray-900 
-                    py-2 rounded transition cursor-pointer"
-                >
-                  View Details
-                </button>
-              </div>
-            </Link>
+              product={product}
+              isWishlisted={isWishlisted}
+              toggleWishlist={handleToggleWishlist}
+              addToCart={addToCart}
+            />
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-500 text-lg mt-10">
+        <p className="text-center text-text/70 text-lg mt-10">
           No products available in this category.
         </p>
       )}

@@ -10,30 +10,27 @@ const statusIcon = {
   Cancelled: <XCircle className="text-red-500 w-5 h-5" />,
 };
 
-const OrderHistory = () => {
+const Order = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const token = localStorage.getItem("authToken");
-
-  const api = axios.create({
-    baseURL: "http://localhost:5000/api",
-    headers: { Authorization: `Bearer ${token}` },
-  });
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await api.get("/orders");
+        const res = await axios.get("http://localhost:5000/api/orders", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setOrders(res.data);
       } catch (err) {
-        console.error("❌ Failed to fetch orders:", err);
+        console.error("❌ Failed to fetch orders:", err.response?.data || err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchOrders();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (
@@ -46,11 +43,11 @@ const OrderHistory = () => {
   return (
     <div className="min-h-screen bg-background py-10 px-4 md:px-12">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold text-text mb-6">Order History</h1>
+        <h1 className="text-3xl font-bold text-text mb-6 text-center">My Orders</h1>
 
         {orders.length === 0 ? (
           <div className="text-center text-gray-500 py-20 text-lg">
-            You haven’t placed any orders yet.
+            You have no orders yet.
           </div>
         ) : (
           <div className="space-y-6">
@@ -103,4 +100,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default Order;

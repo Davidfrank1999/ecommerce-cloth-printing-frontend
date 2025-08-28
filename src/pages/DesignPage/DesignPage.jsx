@@ -89,7 +89,7 @@ export default function DesignPage() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-gray-50 pt-16">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)] bg-gray-50">
       {/* Sidebar */}
       <aside className="w-full lg:w-[28%] bg-white border-r shadow-lg p-6 flex flex-col overflow-y-auto">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Customize Your T-Shirt</h2>

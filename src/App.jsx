@@ -4,13 +4,15 @@ import Signup from "./components/Signup/Signup.jsx";
 import Mainlayout from "./layouts/Mainlayout.jsx";
 import { HomePage } from "./pages/HomePage/HomePage.jsx";
 import Product from "./pages/Product/Product.jsx";
-import ProductCard from "./pages/Product/ProductCard.jsx";
+import ProductDetail from "./pages/Product/ProductDetail.jsx";
 import Cart from "./components/Cart/Cart.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import AccountSettings from "./components/MyAccount/AccountSettings.jsx";
 import OrderHistory from "./components/MyAccount/OrderHistory.jsx";
 import Payment from "./pages/Payment/Payment.jsx";
 import DesignPage from "./pages/DesignPage/DesignPage.jsx";
+import Order from "./pages/Order/Order.jsx";
+import OrderDetails from "./pages/Order/OrderDetails.jsx";
 
 // Admin pages
 import Admin from "./layouts/Admin.jsx";
@@ -35,20 +37,22 @@ function App() {
         <Route element={<Mainlayout />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/product" element={<Product />} />
-          <Route path="/product/:category/:id" element={<ProductCard />} />
+          <Route path="/product/:category/:id" element={<ProductDetail />} />
           <Route path="/design/:id" element={<DesignPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/account-settings" element={<AccountSettings />} />
           <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/orders" element={<Order />} />   {/* customer orders */}
+          <Route path="/orders/:id" element={<OrderDetails />} />
         </Route>
 
         {/* ✅ Admin Protected Routes */}
           <Route path="/admin" element={<Admin />}>
             <Route index element={<Dashboard />} />
             <Route path="products" element={<Products />} />
-            <Route path="orders" element={<Orders />} />
+            <Route path="orders" element={<Orders />} />        {/* admin orders */}
             <Route path="upload" element={<UploadProduct />} /> {/* ✅ fixed */}
           </Route>
       </Routes>

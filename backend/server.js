@@ -5,6 +5,10 @@ import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import clipartRoutes from "./routes/clipartRoutes.js";  // ✅ add this
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -20,5 +24,9 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api/products", productRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/cliparts", clipartRoutes);  // ✅ register here
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.listen(5000, () => console.log("🚀 Backend running on port 5000"));
